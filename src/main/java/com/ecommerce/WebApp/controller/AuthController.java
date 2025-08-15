@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
@@ -26,9 +29,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest dto) {
-        User user = loginService.login(dto);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest dto) {
+        String token = loginService.login(dto);
+        Map<String, String> response = new HashMap<String, String>();
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
 
 }
